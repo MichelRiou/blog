@@ -32,7 +32,7 @@ class DefaultController extends Controller
     public function createPostAction(Request $request)
     {
         $post = new Post();
-        $member=new Member();
+        //$member=new Member();
 
 
         $form = $this->createForm(PostType::class, $post);
@@ -42,7 +42,15 @@ class DefaultController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $post->setCreatedAt(new \DateTime());
-            //theme
+            $post->setMember($this->getUser());
+            //
+            $repositoryType = $this->getDoctrine()->getRepository("AppBundle\Entity\Type");
+            $typeDummy = $repositoryType->find(1);
+            $post->setType($typeDummy);
+            $repositoryTheme = $this->getDoctrine()->getRepository("AppBundle\Entity\Theme");
+            $themeDummy = $repositoryTheme->find(1);
+            $post->setTheme($themeDummy);
+
             //type
             //member
 
