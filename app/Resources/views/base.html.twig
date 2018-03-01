@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Blog de MR{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bower-components/bootstrap/dist/css/bootstrap.css') }}">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body class="container-fluid">
+    <div class="row">
+        {% include("_navbar.html.twig") %}
+    </div>
+        {% block body %}{% endblock %}
+        <script src="{{ asset('bower-components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('bower-components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
