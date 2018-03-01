@@ -2,7 +2,9 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Post;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -18,9 +20,10 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre',TextType::class,['label'=>'Titre du post','required'=>true])
-            //    ->add('createdAt', DateType::class)
+
+                //  ->add('createdAt', DateType::class)
             //    ->add('closedAt')
-                ->add('content', TextareaType::class,['label'=>'Saisie du texte'])
+                ->add('content', TextareaType::class,['label'=>'Saisie du texte', 'attr'=>['rows'=>10]])
              //   ->add('theme')
              //   ->add('type')
              //   ->add('member')

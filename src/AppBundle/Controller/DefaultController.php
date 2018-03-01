@@ -26,13 +26,18 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/post", name="PostRoute")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/post/{id}", name="PostRoute")
+     * @param $id
+     * @param Request $request
+     * @return Response
      */
-    public function createPostAction(Request $request)
+    public function createPostAction($id ,Request $request)
     {
         $post = new Post();
         //$member=new Member();
+        $repositoryType = $this->getDoctrine()->getRepository("AppBundle\Entity\Type");
+        $typeDummy = $repositoryType->find($id);
+        $post->setType($typeDummy);
 
 
         $form = $this->createForm(PostType::class, $post);
@@ -44,9 +49,7 @@ class DefaultController extends Controller
             $post->setCreatedAt(new \DateTime());
             $post->setMember($this->getUser());
             //
-            $repositoryType = $this->getDoctrine()->getRepository("AppBundle\Entity\Type");
-            $typeDummy = $repositoryType->find(1);
-            $post->setType($typeDummy);
+
             $repositoryTheme = $this->getDoctrine()->getRepository("AppBundle\Entity\Theme");
             $themeDummy = $repositoryTheme->find(1);
             $post->setTheme($themeDummy);
@@ -62,7 +65,8 @@ class DefaultController extends Controller
         }
 
         return $this->render("post.html.twig", [
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "type" => $typeDummy
         ]);
     }
     /**

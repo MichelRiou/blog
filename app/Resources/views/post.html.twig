@@ -2,7 +2,8 @@
 {% block body %}
 
 <div class="col-md-9 col-md-offset-3">
-    <h2>Saisies Demandes/recherches</h2>
+   {% dump(type) %}
+    <h3>Saisie d'une nouvelle {{ type.designation }}</h3>
 {{ form(form) }}
 </div>
 {% endblock %}
