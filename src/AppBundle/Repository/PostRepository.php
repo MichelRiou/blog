@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function postsByDesc()
+    {
+        $qb=$this->createQueryBuilder('p');
+        $qb->select('p')
+            ->orderBy('p.createdAt','desc');
+
+
+        return $qb->getQuery();
+    }
 }

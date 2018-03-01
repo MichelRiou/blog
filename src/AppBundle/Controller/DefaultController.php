@@ -17,7 +17,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $repository = $this->getDoctrine()->getRepository("AppBundle\Entity\Post");
-        $posts = $repository->findAll();
+        $posts = $repository->postsByDesc()->getResult();
 
         // replace this example code with whatever you need
         return $this->render('index.html.twig', [
@@ -67,6 +67,50 @@ class DefaultController extends Controller
         return $this->render("post.html.twig", [
             "form" => $form->createView(),
             "type" => $typeDummy
+        ]);
+    }
+    /**
+     * @Route("/modifPost/{id}", name="modifPostRoute")
+     * @param $id
+     * @param Request $request
+     * @return Response
+     */
+    public function modifPostAction($id ,Request $request)
+    {
+        $post = new Post();
+        //$member=new Member();
+        $repositoryPost = $this->getDoctrine()->getRepository("AppBundle\Entity\Post");
+        $post = $repositoryPost->find($id);
+       // $post->setType($typeDummy);
+
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            //$post->setCreatedAt(new \DateTime());
+           // $post->setMember($this->getUser());
+            //
+
+           // $repositoryTheme = $this->getDoctrine()->getRepository("AppBundle\Entity\Theme");
+            //$themeDummy = $repositoryTheme->find(1);
+           // $post->setTheme($themeDummy);
+
+            //type
+            //member
+
+            $em->persist($post);
+            $em->flush();
+
+            //Redirection pour eviter de rester en post
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render("modifpost.html.twig", [
+            "form" => $form->createView(),
+           // "type" => $typeDummy
         ]);
     }
     /**

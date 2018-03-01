@@ -2,19 +2,34 @@
 
 {% block body %}
 
-<h2>Liste des dernieres Demandes/recherches</h2>
+    <h2>Liste des dernieres Demandes/recherches</h2>
     <div class="col-md-9 col-md-offset-3">
-        <a href="{{ path('PostRoute', {'id': '2'}) }}"><button class="btn btn-primary">RECHERCHE</button></a>
-        <a href="{{ path('PostRoute', {'id': '1'}) }}"><button class="btn btn-primary">OFFRE</button></a>
-    <table class="table table-bordered table-striped">
-    {% for post in posts %}
-    <tr><td>{{ post.createdAt | date('d/m/Y H:i:s') }}</td><td>{{ post.type.designation }}</td><td>{{ post.titre }}</td><td>{{ post.member.name }}</td></tr>
-        {% else %}
-            <hr>
-        <h2>Pas de Posts pour le moment</h2>
-        {% endfor %}
+        <a href="{{ path('PostRoute', {'id': '2'}) }}">
+            <button class="btn btn-primary">RECHERCHE</button>
+        </a>
+        <a href="{{ path('PostRoute', {'id': '1'}) }}">
+            <button class="btn btn-primary">OFFRE</button>
+        </a>
+        <table class="table table-bordered table-striped">
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.createdAt | date('d/m/Y H:i:s') }}</td>
+                    {% if app.user.userName is defined and app.user.userName == post.member.email %}
 
-    </table>
+                        <td><a href="{{ path("modifPostRoute",{id:post.id}) }}">{{ post.type.designation }}</a></td>
+                    {% else %}
+                        <td>{{ post.type.designation }}</td>
+                    {% endif %}
+
+                    <td>{{ post.titre }}</td>
+                    <td>{{ post.member.name }}</td>
+                </tr>
+            {% else %}
+                <hr>
+                <h2>Pas de Posts pour le moment</h2>
+            {% endfor %}
+
+        </table>
     </div>
 
 
